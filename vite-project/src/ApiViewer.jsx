@@ -19,15 +19,25 @@ export default function ApiViewer() {
     //mQryId: "categoryins",
     //mQryParams: ["Sports"] : category name char(30)
 
-    //To get the details of all the category:eg.
+    //To get the details of all the category excluding the inactive categories:eg.
     //mUserId: 'GUEST',
     //mQryId: "categoryqry",
     //mQryParams: []
 
-    //To get the details of one category:eg.
+    //To get the details of all the category including the inactive categories:eg.
+    //mUserId: 'ADMIN',
+    //mQryId: "categoryqry",
+    //mQryParams: ['ADMIN'] user id : 'ADMIN'
+
+    //To get the details of one category excluding the inactive categories:eg.
     //mUserId: 'GUEST',
     //mQryId: "categoryqry1",
     //mQryParams: [1]  : category id
+
+    //To get the details of one category including the inactive categories:eg.
+    //mUserId: 'ADMIN',
+    //mQryId: "categoryqry1",
+    //mQryParams: [1, 'ADMIN']  : category id, 'ADMIN'
 
     //To create a new payment currency:eg.
     //mUserId: 'ADMIN',
@@ -121,15 +131,25 @@ export default function ApiViewer() {
     //mQryParams: [{planid:'BASIC', name:'BASIC plan', noofpolls:0, amount:0, exclgst:0, gst:0, cgst:0, sgst:0, freebee:10, sp_fromdate:'2026-04-01 00:00:00', sp_todate:'2026-04-30 23:59:59'}] planid CHAR(10),name CHAR(40),noofpolls INT, 
     // amount including gst DOUBLE, exclgst DOUBLE,gst DOUBLE,cgst DOUBLE,sgst DOUBLE
 
-    //To get the details of all the Plans:eg.
+    //To get the details of all the Plans excluding the inactive categories:eg.
     //mUserId: 'GUEST',
     //mQryId: "planqry",
     //mQryParams: []
 
-    //To get the details of one Plan:eg.
+    //To get the details of all Plans including the inactive categories:eg.
+    //mUserId: 'ADMIN',
+    //mQryId: "planqry",
+    //mQryParams: ['ADMIN'] user id : 'ADMIN'
+
+    //To get the details of one Plan excluding the inactive categories:eg.
     //mUserId: 'GUEST',
     //mQryId: "planqry1",
     //mQryParams: ['BASIC'] planid char(10)
+
+    //To get the details of one Plan including the inactive categories:eg.
+    //mUserId: 'ADMIN',
+    //mQryId: "planqry1",
+    //mQryParams: ['BASIC', 'ADMIN'] planid char(10), ADMIN
 
     //To get the details of a parameter:eg.
     //mUserId: 'GUEST',
@@ -183,15 +203,15 @@ export default function ApiViewer() {
     //To create a new user details:/apiuserupd
     //mUserId: '__self',
     //mQryId: "userins",
-    //mQryParams: [{id:'93428008t2', name:'Testplanwith5freebees', sex:'M', usertype:'U', isloggedin:'Y', is_active:'Y', country_code:'IND', state_code:'TN', district_code:'TN030', mpconstituency:'TN030', mlaconstituency:'', divcode:'TN225', lastaccessed:'2026-03-22 01:30:00',	dateofbirth:'1972-02-05', planid:'TEST'}]
-    //id VARCHAR(13),	name VARCHAR(40), sex CHAR(1), usertype CHAR(1), isloggedin CHAR(1), is_active CHAR(1),	country_code CHAR(3),
+    //mQryParams: [{id:'93428008t2', name:'Testplanwith5freebees', email:'test123@gmail.com', sex:'M', usertype:'U', isloggedin:'Y', is_active:'Y', country_code:'IND', state_code:'TN', district_code:'TN030', mpconstituency:'TN030', mlaconstituency:'', divcode:'TN225', lastaccessed:'2026-03-22 01:30:00',	dateofbirth:'1972-02-05', planid:'TEST', paidfrom:'PAYTM', fromaccount:'123@paytm', language:'ENG'}]
+    //id VARCHAR(13), name VARCHAR(40), email VARCHAR(50), sex CHAR(1), usertype CHAR(1), isloggedin CHAR(1), is_active CHAR(1),	country_code CHAR(3),
     //state_code CHAR(3),	district_code CHAR(5), mpconstituency CHAR(5), mlaconstituency CHAR(5), divcode VARCHAR(30), lastaccessed DATETIME,
-    //dateofbirth DATE, planid VARCHAR(10)
+    //dateofbirth DATE, planid VARCHAR(10), paidfrom varchar(10), fromaccount varchar(50), language CHAR(3)
 
     //To update an existing user details:/apiuserupd
     //mUserId: '__self',
     //mQryId: "userupd",
-    //mQryParams: [{id:'93428008t2', name:'Testplanwith5freebees', sex:'M', usertype:'U', isloggedin:'N', is_active:'Y', country_code:'IND', state_code:'TN', district_code:'TN030', mpconstituency:'TN030', mlaconstituency:'TN225', divcode:'', lastaccessed:'2026-03-23 22:30:00',	dateofbirth:'1972-02-05'}]
+    //mQryParams: [{id:'93428008t2', name:'Testplanwith5freebees', sex:'M', usertype:'U', isloggedin:'N', is_active:'Y', country_code:'IND', state_code:'TN', district_code:'TN030', mpconstituency:'TN030', mlaconstituency:'TN225', divcode:'', lastaccessed:'2026-03-23 22:30:00',	dateofbirth:'1972-02-05', language:'ENG'}]
 
     //To get the user details for one single user:/apiquery
     //mUserId: 'GUEST',
@@ -279,16 +299,103 @@ export default function ApiViewer() {
     //mQryId: "commentqry1",
     //mQryParams: [20] // pollid int
 
-    //const apiUrl = "http://localhost:5000/apiquery"
-    const apiUrl = "https://darkslateblue-pelican-294300.hostingersite.com/apiquery"
+    //To create an objection raised for a particular poll:eg.
+    //mUserId: '93428008t5',
+    //mQryId: "objectionins",
+    //mQryParams: [{pollid:20, userid:'', objections:'This is an objection 3'}]
+
+    //To create an invoice for the plan recharge by one user:eg.
+    // mUserId: '93428008t5',
+    // mQryId: "polluserins",
+    // mQryParams: [{userid:'93428008t5', planid:'10', paidfrom:'PAYTM', fromaccount:'123@paytm'}]
+
+    //To get the details of all the plans recharged by one user:eg.
+    //mUserId: '93428008t5',
+    //mQryId: "planrechargeqry1",
+    //mQryParams: ['93428008t5'] userid char(18)
+
+    //To get the details of all the objections raised for a particular poll:eg.
+    //mUserId: '93428008t5',
+    //mQryId: "objectionqry1",
+    //mQryParams: [20] pollid int
+
+    //To create a new notification
+    // mUserId: 'ADMIN',
+    // mQryId: "notificationins",
+    // mQryParams: [{notificationtext:'This is a notification text', categoryid:1, pollid:20, country_code:'IND', state_code:'TN', district_code:'TN030', mpconstituency:'TN030', mlaconstituency:'TN225', expirydate:'2026-07-31 12:00:00'}]
+
+    //To update an existing notification details
+    // mUserId: 'ADMIN',
+    // mQryId: "notificationupd",
+    // mQryParams: [{ id:1, notificationtext:'This is a test upd notification text', categoryid:1, pollid:20, country_code:'IND', state_code:'TN', district_code:'TN030', mpconstituency:'TN030', mlaconstituency:'TN225', expirydate:'2026-07-31 00:00:00'}]
+
+    //To delete an existing notification
+    // mUserId: 'ADMIN',
+    // mQryId: "notificationdel",
+    // mQryParams: [1]
+
+    //To create a new language
+    // mUserId: 'ADMIN',
+    // mQryId: "languageins",
+    // mQryParams: [{code:'TLG', language:'TELUGU', fontname:'font1'}]
+
+    //To update an existing language
+    // mUserId: 'ADMIN',
+    // mQryId: "languageupd",
+    // mQryParams: [{code:'TLG', language:'TELUG', fontname:'font2'}]
+
+    //To delete an existing language
+    // mUserId: 'ADMIN',
+    // mQryId: "languagedel",
+    // mQryParams: ['TLG']
+
+    // To get notification for one user
+    // mUserId: '9020608080',
+    // mQryId: "notificationqry1",
+    // mQryParams: ['9020608080']
+
+    // To get notification for one poll
+    // mUserId: '9020608080',
+    // mQryId: "notificationpollqry1",
+    // mQryParams: ['9020608080', 20]
+
+    // To get the list of all languages.
+    // mUserId: '9020608080',
+    // mQryId: "languageqry",
+    // mQryParams: []
+
+    // To get the details of one language.
+    // mUserId: '9020608080',
+    // mQryId: "languageqry1",
+    // mQryParams: ['TML']
+
+    // To get the daily voters count for a period of time.
+    // mUserId: '93428008t5',
+    // mQryId: "voterdailycountqry2",
+    // mQryParams: ['2025-07-31', '2026-05-07']
+
+    // To get the sex-vise poll-vise voters count for a period of time. Just the participation count, not the Poll result.
+    //If no parameters are given, get the details for the entire data. If one parameter is given, filtered based on Pollid.
+    //If three parameters are given, the first parameter is treated as the Pollid and the other two are From Date and To Date.
+    // mUserId: '93428008t5',
+    // mQryId: "voterpollsexcountqry2",
+    // mQryParams: [24, '2025-01-01', '2026-07-31']
+
+    // To get the vote details of a poll country-vise, state-vise, sex-vise and age-vise.
+    // mUserId: '93428008t5',
+    // mQryId: "pollvotesstatesagesexqry1",
+    // mQryParams: [27]
+
+    const apiUrl = "http://localhost:5000/apiquery"
+    //const apiUrl = "https://darkslateblue-pelican-294300.hostingersite.com/apiquery"
     //const apiUrl = "http://localhost:5000/apiuserupd"
     //const apiUrl = "https://darkslateblue-pelican-294300.hostingersite.com/apiuserupd"
     //const apiUrl = "http://localhost:5000/apiadminupd"
 
-    const postData = {
-        mUserId: 'GUEST',
-        mQryId: "commentqry1",
-        mQryParams: [20] // pollid int
+    const postData = { // To get the vote details of a poll country-vise, state-vise, sex-vise and age-vise.
+        mUserId: '93428008t5',
+        mQryId: "planqry",
+        mQryParams: ['ADMIN']
     };
 
     const fetchData = async () => {
