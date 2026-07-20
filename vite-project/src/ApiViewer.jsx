@@ -122,14 +122,14 @@ export default function ApiViewer() {
     //To create the plan details:eg.
     //mUserId: 'ADMIN',
     //mQryId: "planins",
-    //mQryParams: [{planid:'TEST', name:'TEST', noofpolls:50,amount:10000, exclgst:10000, gst:0, cgst:0, sgst:0, freebee:5, sp_fromdate:'2026-03-01 12:00:00', sp_todate:'2026-03-31 12:00:00'}] planid CHAR(10),name CHAR(40),noofpolls INT, 
-    // amount including gst DOUBLE, exclgst DOUBLE,gst DOUBLE,cgst DOUBLE,sgst DOUBLE, freebee int, sp_fromdate datetime,  , sp_todate datetime
+    //mQryParams: [{planid:'TEST', name:'TEST', noofpolls:50,amount:10000, exclgst:10000, gst:0, cgst:0, sgst:0, freebee:5, sp_fromdate:'2026-03-01 12:00:00', sp_todate:'2026-03-31 12:00:00', validityperiod:12, editablevotecount:100}] 
+    //planid VARCHAR(10),name CHAR(40),noofpolls INT, amount including gst DOUBLE, exclgst DOUBLE,gst DOUBLE,cgst DOUBLE,sgst DOUBLE, freebee int, sp_fromdate datetime,  sp_todate datetime, validityperiod int, editablevotecount int
 
     //To update the plan details:eg.
     //mUserId: 'ADMIN',
     //mQryId: "planupd",
-    //mQryParams: [{planid:'BASIC', name:'BASIC plan', noofpolls:0, amount:0, exclgst:0, gst:0, cgst:0, sgst:0, freebee:10, sp_fromdate:'2026-04-01 00:00:00', sp_todate:'2026-04-30 23:59:59'}] planid CHAR(10),name CHAR(40),noofpolls INT, 
-    // amount including gst DOUBLE, exclgst DOUBLE,gst DOUBLE,cgst DOUBLE,sgst DOUBLE
+    //mQryParams: [{planid:'BASIC', name:'BASIC plan', noofpolls:0, amount:0, exclgst:0, gst:0, cgst:0, sgst:0, freebee:10, sp_fromdate:'2026-04-01 00:00:00', sp_todate:'2026-04-30 23:59:59', validityperiod:12, editablevotecount:200}]
+    //planid VARCHAR(10),name VARCHAR(40),noofpolls INT, amount including gst DOUBLE, exclgst DOUBLE,gst DOUBLE,cgst DOUBLE,sgst DOUBLE, freebee int, sp_fromdate datetime,  sp_todate datetime, validityperiod int, editablevotecount int
 
     //To get the details of all the Plans excluding the inactive categories:eg.
     //mUserId: 'GUEST',
@@ -201,12 +201,12 @@ export default function ApiViewer() {
     //mQryParams: [1,[5,6,7]] categoryid int, pollid[] int
 
     //To create a new user details:/apiuserupd
-    //mUserId: '__self',
+    //mUserId: 'ADMIN',
     //mQryId: "userins",
-    //mQryParams: [{id:'93428008t2', name:'Testplanwith5freebees', email:'test123@gmail.com', sex:'M', usertype:'U', isloggedin:'Y', is_active:'Y', country_code:'IND', state_code:'TN', district_code:'TN030', mpconstituency:'TN030', mlaconstituency:'', divcode:'TN225', lastaccessed:'2026-03-22 01:30:00',	dateofbirth:'1972-02-05', planid:'TEST', paidfrom:'PAYTM', fromaccount:'123@paytm', language:'ENG'}]
+    //mQryParams: [{id:'93428008t2', name:'Testplanwith5freebees', email:'test123@gmail.com', sex:'M', usertype:'U', isloggedin:'Y', is_active:'Y', country_code:'IND', state_code:'TN', district_code:'TN030', mpconstituency:'TN030', mlaconstituency:'', divcode:'TN225', lastaccessed:'2026-03-22 01:30:00',	dateofbirth:'1972-02-05', planid:'TEST', paidfrom:'PAYTM', fromaccount:'123@paytm', language:'ENG', availableeditablevotes:100, expirydate:'2026-07-31'}]
     //id VARCHAR(13), name VARCHAR(40), email VARCHAR(50), sex CHAR(1), usertype CHAR(1), isloggedin CHAR(1), is_active CHAR(1),	country_code CHAR(3),
     //state_code CHAR(3),	district_code CHAR(5), mpconstituency CHAR(5), mlaconstituency CHAR(5), divcode VARCHAR(30), lastaccessed DATETIME,
-    //dateofbirth DATE, planid VARCHAR(10), paidfrom varchar(10), fromaccount varchar(50), language CHAR(3)
+    //dateofbirth DATE, planid VARCHAR(10), paidfrom varchar(10), fromaccount varchar(50), language CHAR(3), (must not include availableeditablevotes, expirydate)
 
     //To update an existing user details:/apiuserupd
     //mUserId: '__self',
@@ -246,8 +246,8 @@ export default function ApiViewer() {
     //To recharge an existing user with a plan:/apiuserupd
     //mUserId: '__self',
     //mQryId: "polluserins",
-    //mQryParams: [{userid:'93428008t2', planid:'TEST'}]
-    //userid (user id) VARCHAR(10),planid VARCHAR(10)
+    //mQryParams: [{userid:'93428008t2', planid:'TEST', paidfrom:'PAYTM', fromaccount:'123@paytm'}]
+    //userid (user id) VARCHAR(10),planid VARCHAR(10), paidfrom VARCHAR(10), fromaccount VARCHAR(40)
 
     //To vote eg:/apiuserupd
     //mUserId: '__self',
@@ -358,6 +358,21 @@ export default function ApiViewer() {
     // mUserId: '9020608080',
     // mQryId: "notificationpollqry1",
     // mQryParams: ['9020608080', 20]
+
+    // Admin: list all notifications
+    // mUserId: 'ADMIN',
+    // mQryId: "notificationqry",
+    // mQryParams: []
+
+    // User: delivered inbox (call notificationqry1 first to pull new)
+    // mUserId: '9020608080',
+    // mQryId: "notificationinboxqry",
+    // mQryParams: ['9020608080']
+
+    // User: unread count for bell badge (does not mark as delivered)
+    // mUserId: '9020608080',
+    // mQryId: "notificationcountqry1",
+    // mQryParams: ['9020608080']
 
     // To get the list of all languages.
     // mUserId: '9020608080',
