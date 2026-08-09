@@ -131,22 +131,22 @@ export default function ApiViewer() {
     //mQryParams: [{planid:'BASIC', name:'BASIC plan', noofpolls:0, amount:0, exclgst:0, gst:0, cgst:0, sgst:0, freebee:10, sp_fromdate:'2026-04-01 00:00:00', sp_todate:'2026-04-30 23:59:59', validityperiod:12, editablevotecount:200}]
     //planid VARCHAR(10),name VARCHAR(40),noofpolls INT, amount including gst DOUBLE, exclgst DOUBLE,gst DOUBLE,cgst DOUBLE,sgst DOUBLE, freebee int, sp_fromdate datetime,  sp_todate datetime, validityperiod int, editablevotecount int
 
-    //To get the details of all the Plans excluding the inactive categories:eg.
+    //To get the details of all the Plans excluding the inactive categories including the subscriber count per plan (All):eg.
     //mUserId: 'GUEST',
     //mQryId: "planqry",
     //mQryParams: []
 
-    //To get the details of all Plans including the inactive categories:eg.
+    //To get the details of all Plans including the inactive categories including the subscriber count per plan (All):eg.
     //mUserId: 'ADMIN',
     //mQryId: "planqry",
     //mQryParams: ['ADMIN'] user id : 'ADMIN'
 
-    //To get the details of one Plan excluding the inactive categories:eg.
+    //To get the details of one Plan excluding the inactive categories including the subscriber count:eg.
     //mUserId: 'GUEST',
     //mQryId: "planqry1",
     //mQryParams: ['BASIC'] planid char(10)
 
-    //To get the details of one Plan including the inactive categories:eg.
+    //To get the details of one Plan including the inactive categories including the subscriber count:eg.
     //mUserId: 'ADMIN',
     //mQryId: "planqry1",
     //mQryParams: ['BASIC', 'ADMIN'] planid char(10), ADMIN
@@ -401,16 +401,28 @@ export default function ApiViewer() {
     // mQryId: "pollvotesstatesagesexqry1",
     // mQryParams: [27]
 
-    const apiUrl = "http://localhost:5000/apiquery"
+    // To send otp
+    // mUserId: '9342800844',
+    // mQryId: 'sendotpemail1',
+    // mQryParams: ['tradeview1972@gmail.com'] email address
+
+    // To verify otp
+    // mUserId: '9342800844',
+    // mQryId: 'verifyotp2',
+    // mQryParams: ['tradeview1972@gmail.com', '666281'] email address, otp
+
+    //const apiUrl = "https://api.theballoter.com/apiquery"
+    //const apiUrl = "http://localhost:5000/apiquery"
     //const apiUrl = "https://darkslateblue-pelican-294300.hostingersite.com/apiquery"
     //const apiUrl = "http://localhost:5000/apiuserupd"
+    const apiUrl = "https://api.theballoter.com/apiuserupd"
     //const apiUrl = "https://darkslateblue-pelican-294300.hostingersite.com/apiuserupd"
     //const apiUrl = "http://localhost:5000/apiadminupd"
 
     const postData = { // To get the vote details of a poll country-vise, state-vise, sex-vise and age-vise.
-        mUserId: '93428008t5',
-        mQryId: "planqry",
-        mQryParams: ['ADMIN']
+        mUserId: '9020608086',
+        mQryId: "sendotpemail1",
+        mQryParams: ['sanjayviswanath3@gmail.com']
     };
 
     const fetchData = async () => {
