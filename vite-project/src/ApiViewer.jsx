@@ -122,24 +122,24 @@ export default function ApiViewer() {
     //To create the plan details:eg.
     //mUserId: 'ADMIN',
     //mQryId: "planins",
-    //mQryParams: [{planid:'TEST', name:'TEST', noofpolls:50,amount:10000, exclgst:10000, gst:0, cgst:0, sgst:0, freebee:5, sp_fromdate:'2026-03-01 12:00:00', sp_todate:'2026-03-31 12:00:00', validityperiod:12, editablevotecount:100}] 
-    //planid VARCHAR(10),name CHAR(40),noofpolls INT, amount including gst DOUBLE, exclgst DOUBLE,gst DOUBLE,cgst DOUBLE,sgst DOUBLE, freebee int, sp_fromdate datetime,  sp_todate datetime, validityperiod int, editablevotecount int
+    //mQryParams: [{planid:'TEST', name:'TEST', noofpolls:50,amount:10000, exclgst:10000, gst:0, cgst:0, sgst:0, freebee:5, sp_fromdate:'2026-03-01 12:00:00', sp_todate:'2026-03-31 12:00:00', validityperiod:12, editablevotecount:100, plantype:'P'}] //plantype:P for Polls, V for Votes 
+    //planid VARCHAR(10),name CHAR(40),noofpolls INT, amount including gst DOUBLE, exclgst DOUBLE,gst DOUBLE,cgst DOUBLE,sgst DOUBLE, freebee int, sp_fromdate datetime,  sp_todate datetime, validityperiod int, editablevotecount int, plantype CHAR(1) default 'P' COMMENT 'P for Polls, V for Votes'
 
     //To update the plan details:eg.
     //mUserId: 'ADMIN',
     //mQryId: "planupd",
-    //mQryParams: [{planid:'BASIC', name:'BASIC plan', noofpolls:0, amount:0, exclgst:0, gst:0, cgst:0, sgst:0, freebee:10, sp_fromdate:'2026-04-01 00:00:00', sp_todate:'2026-04-30 23:59:59', validityperiod:12, editablevotecount:200}]
-    //planid VARCHAR(10),name VARCHAR(40),noofpolls INT, amount including gst DOUBLE, exclgst DOUBLE,gst DOUBLE,cgst DOUBLE,sgst DOUBLE, freebee int, sp_fromdate datetime,  sp_todate datetime, validityperiod int, editablevotecount int
+    //mQryParams: [{planid:'BASIC', name:'BASIC plan', noofpolls:0, amount:0, exclgst:0, gst:0, cgst:0, sgst:0, freebee:10, sp_fromdate:'2026-04-01 00:00:00', sp_todate:'2026-04-30 23:59:59', validityperiod:12, editablevotecount:200, plantype:'P'}]
+    //planid VARCHAR(10),name VARCHAR(40),noofpolls INT, amount including gst DOUBLE, exclgst DOUBLE,gst DOUBLE,cgst DOUBLE,sgst DOUBLE, freebee int, sp_fromdate datetime,  sp_todate datetime, validityperiod int, editablevotecount int, plantype CHAR(1) default 'P' COMMENT 'P for Polls, V for Votes'
 
     //To get the details of all the Plans excluding the inactive categories including the subscriber count per plan (All):eg.
     //mUserId: 'GUEST',
     //mQryId: "planqry",
-    //mQryParams: []
+    //mQryParams: []/[{plantype:'P'}] plantype char(1) default 'P' COMMENT 'P for Polls, V for Votes'. If no plantype is given, all types of plans will be fetched.
 
     //To get the details of all Plans including the inactive categories including the subscriber count per plan (All):eg.
     //mUserId: 'ADMIN',
     //mQryId: "planqry",
-    //mQryParams: ['ADMIN'] user id : 'ADMIN'
+    //mQryParams: [{userId: 'ADMIN'}]/ [{userId: 'ADMIN', plantype: 'P'}] user id varchar(18), plantype char(1) default 'P' COMMENT 'P for Polls, V for Votes'. If no plantype is given, all types of plans will be fetched.
 
     //To get the details of one Plan excluding the inactive categories including the subscriber count:eg.
     //mUserId: 'GUEST',
@@ -411,18 +411,23 @@ export default function ApiViewer() {
     // mQryId: 'verifyotp2',
     // mQryParams: ['tradeview1972@gmail.com', '666281'] email address, otp
 
+    // If the system is configured for paid votes, decrement the available votes for the user
+    // mUserId: '9342800844',
+    // mQryId: "ifCanVote",
+    // mQryParams: ['9342800844']
+
     //const apiUrl = "https://api.theballoter.com/apiquery"
-    //const apiUrl = "http://localhost:5000/apiquery"
+    const apiUrl = "http://localhost:5000/apiquery"
     //const apiUrl = "https://darkslateblue-pelican-294300.hostingersite.com/apiquery"
     //const apiUrl = "http://localhost:5000/apiuserupd"
-    const apiUrl = "https://api.theballoter.com/apiuserupd"
+    //const apiUrl = "https://api.theballoter.com/apiuserupd"
     //const apiUrl = "https://darkslateblue-pelican-294300.hostingersite.com/apiuserupd"
     //const apiUrl = "http://localhost:5000/apiadminupd"
 
-    const postData = { // To get the vote details of a poll country-vise, state-vise, sex-vise and age-vise.
-        mUserId: '9020608086',
-        mQryId: "sendotpemail1",
-        mQryParams: ['sanjayviswanath3@gmail.com']
+    const postData = { // If the system is configured for paid votes, decrement the available votes for the user
+        mUserId: '1',
+        mQryId: "getPaidVoteUpdSqlStrArray",
+        mQryParams: ['1','100', 'yes' ]
     };
 
     const fetchData = async () => {
