@@ -303,6 +303,17 @@ export default function ApiViewer() {
     //mUserId: '93428008t5',
     //mQryId: "objectionins",
     //mQryParams: [{pollid:20, userid:'', objections:'This is an objection 3'}]
+    // status defaults to 'pending'
+
+    //To list all objections (Admin Reports). Optional status filter: pending|reviewed|dismissed|all
+    //mUserId: 'ADMIN',
+    //mQryId: "objectionqry",
+    //mQryParams: []  // or ['pending']
+
+    //To update objection moderation status (apiadminupd):
+    //mUserId: 'ADMIN',
+    //mQryId: "objectionupd",
+    //mQryParams: [{ id: 1, status: 'reviewed' }]
 
     //To create an invoice for the plan recharge by one user:eg.
     // mUserId: '93428008t5',
@@ -421,8 +432,8 @@ export default function ApiViewer() {
 
     const postData = { // To get the vote details of a poll country-vise, state-vise, sex-vise and age-vise.
         mUserId: '9020608086',
-        mQryId: "sendotpemail1",
-        mQryParams: ['sanjayviswanath3@gmail.com']
+        mQryId: "verifyotp2",
+        mQryParams: ['sanjayviswanath3@gmail.com', '162630']
     };
 
     const fetchData = async () => {
