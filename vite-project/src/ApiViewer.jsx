@@ -427,6 +427,19 @@ export default function ApiViewer() {
     // mQryId: "ifCanVote",
     // mQryParams: ['9342800844']
 
+    // To get the details of all the Polls belonging to list of categories or a country and state, district, mpconstituency, 
+    // mlaconstituency to be displayed in explore page when the user has not logged in(only with categories, a country and state parameters) 
+    // mUserId: '1',
+    // mQryId: "pollqry3",
+    // mQryParams: [{ categories: [1, 2, 40], country_code:'IND', state_code:'TN' }]
+
+    // To get the details of all the Polls belonging to list of categories or a country and state, 
+    // district, mpconstituency, mlaconstituency to be displayed in explore page when the user has not logged in(only with categories, a country and state parameters) 
+    // or when the user has logged in(with all the parameters).
+    // mUserId: '1',
+    // mQryId: "pollqry3",
+    // mQryParams: [{ categories: [1, 2, 40], country_code: 'IND', state_code: 'KL', district_code:'KL001', mpconstituency:'KL001', mlaconstituency:'KL001'}]
+
     //const apiUrl = "https://api.theballoter.com/apiquery"
     const apiUrl = "http://localhost:5000/apiquery"
     //const apiUrl = "https://darkslateblue-pelican-294300.hostingersite.com/apiquery"
@@ -435,10 +448,12 @@ export default function ApiViewer() {
     //const apiUrl = "https://darkslateblue-pelican-294300.hostingersite.com/apiuserupd"
     //const apiUrl = "http://localhost:5000/apiadminupd"
 
-    const postData = { // If the system is configured for paid votes, decrement the available votes for the user
+    const postData = { // To get the details of all the Polls belonging to list of categories or a country and state, 
+        // district, mpconstituency, mlaconstituency to be displayed in explore page when the user has not logged in(only with categories, a country and state parameters) 
+        // or when the user has logged in(with all the parameters).
         mUserId: '1',
-        mQryId: "getPaidVoteUpdSqlStrArray",
-        mQryParams: ['1','100', 'yes' ]
+        mQryId: "pollqry3",
+        mQryParams: [{ categories: [1, 2, 40], country_code: 'IND', state_code: 'KL', district_code: 'KL001', mpconstituency: 'KL001', mlaconstituency: 'KL001' }]
     };
 
     const fetchData = async () => {
