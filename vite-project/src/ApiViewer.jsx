@@ -407,10 +407,10 @@ export default function ApiViewer() {
     // mQryId: "voterpollsexcountqry2",
     // mQryParams: [24, '2025-01-01', '2026-07-31']
 
-    // To get the vote details of a poll country-vise, state-vise, sex-vise and age-vise.
+    // To get the vote details of a poll country-vise, state-vise, sex-vise and age-vise. only paid user will get the complete breakdown.
     // mUserId: '93428008t5',
     // mQryId: "pollvotesstatesagesexqry1",
-    // mQryParams: [27]
+    // mQryParams: [27,'Y'] pollid, paiduser or not
 
     // To send otp
     // mUserId: '9342800844',
@@ -427,18 +427,17 @@ export default function ApiViewer() {
     // mQryId: "ifCanVote",
     // mQryParams: ['9342800844']
 
-    // To get the details of all the Polls belonging to list of categories or a country and state, district, mpconstituency, 
-    // mlaconstituency to be displayed in explore page when the user has not logged in(only with categories, a country and state parameters) 
+    // To get the details of the most trending Polls belonging to a country to be displayed in explore page when the user has not logged in(only with a country, no of polls to be displayed and the logged in status as the parameters)
     // mUserId: '1',
     // mQryId: "pollqry3",
-    // mQryParams: [{ categories: [1, 2, 40], country_code:'IND', state_code:'TN' }]
+    // mQryParams: [{ country_code:'IND', noof_polls_tobe_displayed : 3, is_logged_in:'N' }] if noof_polls_tobe_displayed is ommitted, noof_polls_tobe_displayed = 3, if is_logged_in is omitted, N is assumed
 
     // To get the details of all the Polls belonging to list of categories or a country and state, 
-    // district, mpconstituency, mlaconstituency to be displayed in explore page when the user has not logged in(only with categories, a country and state parameters) 
+    // district, mpconstituency, mlaconstituency to be displayed in explore page when the user has not logged in(only with a country, no of polls to be displayed and the logged in status as the parameters)
     // or when the user has logged in(with all the parameters).
     // mUserId: '1',
     // mQryId: "pollqry3",
-    // mQryParams: [{ categories: [1, 2, 40], country_code: 'IND', state_code: 'KL', district_code:'KL001', mpconstituency:'KL001', mlaconstituency:'KL001'}]
+    // mQryParams: [{ categories: [1, 2, 40], country_code: 'IND', state_code: 'KL', district_code:'KL001', mpconstituency:'KL001', mlaconstituency:'KL001', noof_polls_tobe_displayed : 1000, is_logged_in:'Y'}] if noof_polls_tobe_displayed is ommitted, noof_polls_tobe_displayed = 1000
 
     //const apiUrl = "https://api.theballoter.com/apiquery"
     const apiUrl = "http://localhost:5000/apiquery"
@@ -449,11 +448,11 @@ export default function ApiViewer() {
     //const apiUrl = "http://localhost:5000/apiadminupd"
 
     const postData = { // To get the details of all the Polls belonging to list of categories or a country and state, 
-        // district, mpconstituency, mlaconstituency to be displayed in explore page when the user has not logged in(only with categories, a country and state parameters) 
+        // district, mpconstituency, mlaconstituency to be displayed in explore page when the user has not logged in(only with a country, no of polls to be displayed and the logged in status as the parameters)
         // or when the user has logged in(with all the parameters).
         mUserId: '1',
         mQryId: "pollqry3",
-        mQryParams: [{ categories: [1, 2, 40], country_code: 'IND', state_code: 'KL', district_code: 'KL001', mpconstituency: 'KL001', mlaconstituency: 'KL001' }]
+        mQryParams: [{ categories: [1, 2, 40, 13], country_code: 'IND', state_code: 'KL', district_code:'KL001', mpconstituency:'KL001', mlaconstituency:'KL001', noof_polls_tobe_displayed : 1000, is_logged_in:'Y'}]
     };
 
     const fetchData = async () => {
