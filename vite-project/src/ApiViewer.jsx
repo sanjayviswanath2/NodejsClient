@@ -451,8 +451,11 @@ export default function ApiViewer() {
         // district, mpconstituency, mlaconstituency to be displayed in explore page when the user has not logged in(only with a country, no of polls to be displayed and the logged in status as the parameters)
         // or when the user has logged in(with all the parameters).
         mUserId: '1',
-        mQryId: "pollqry3",
-        mQryParams: [{ categories: [1, 2, 40, 13], country_code: 'IND', state_code: 'KL', district_code:'KL001', mpconstituency:'KL001', mlaconstituency:'KL001', noof_polls_tobe_displayed : 1000, is_logged_in:'Y'}]
+        
+        // mQryId: "pollvotesqry1",
+        // mQryParams: [30]
+        mQryId: "pollvotesstatesagesexqry1",
+        mQryParams: [30, 'Y']
     };
 
     const fetchData = async () => {
