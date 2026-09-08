@@ -440,22 +440,17 @@ export default function ApiViewer() {
     // mQryParams: [{ categories: [1, 2, 40], country_code: 'IND', state_code: 'KL', district_code:'KL001', mpconstituency:'KL001', mlaconstituency:'KL001', noof_polls_tobe_displayed : 1000, is_logged_in:'Y'}] if noof_polls_tobe_displayed is ommitted, noof_polls_tobe_displayed = 1000
 
     //const apiUrl = "https://api.theballoter.com/apiquery"
-    const apiUrl = "http://localhost:5000/apiquery"
+    //const apiUrl = "http://localhost:5000/apiquery"
     //const apiUrl = "https://darkslateblue-pelican-294300.hostingersite.com/apiquery"
-    //const apiUrl = "http://localhost:5000/apiuserupd"
+    const apiUrl = "http://localhost:5000/apiuserupd"
     //const apiUrl = "https://api.theballoter.com/apiuserupd"
     //const apiUrl = "https://darkslateblue-pelican-294300.hostingersite.com/apiuserupd"
     //const apiUrl = "http://localhost:5000/apiadminupd"
 
-    const postData = { // To get the details of all the Polls belonging to list of categories or a country and state, 
-        // district, mpconstituency, mlaconstituency to be displayed in explore page when the user has not logged in(only with a country, no of polls to be displayed and the logged in status as the parameters)
-        // or when the user has logged in(with all the parameters).
-        mUserId: '1',
-        
-        // mQryId: "pollvotesqry1",
-        // mQryParams: [30]
-        mQryId: "pollvotesstatesagesexqry1",
-        mQryParams: [30, 'Y']
+    const postData = {// To send otp
+        mUserId: '9342800844',
+        mQryId: 'sendotpemail1',
+        mQryParams: ['tradeview1972@gmail.com'] //email address
     };
 
     const fetchData = async () => {
