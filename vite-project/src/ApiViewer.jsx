@@ -134,12 +134,12 @@ export default function ApiViewer() {
     //To get the details of all the Plans excluding the inactive categories including the subscriber count per plan (All):eg.
     //mUserId: 'GUEST',
     //mQryId: "planqry",
-    //mQryParams: []/[{plantype:'P'}] plantype char(1) default 'P' COMMENT 'P for Polls, V for Votes'. If no plantype is given, all types of plans will be fetched.
+    //mQryParams: []/[{plantype:'P'}] plantype char(1) default 'P' COMMENT 'P for Polls, V for Votes (paid), L for Limited Votes(To set the Maximum Polled Votes Limit. whenever recharged, value in the 'noofpolls' field will be added with the 'maximumvotesallowed' in the m_pollmaster table).'. If no plantype is given, all types of plans will be fetched.
 
     //To get the details of all Plans including the inactive categories including the subscriber count per plan (All):eg.
     //mUserId: 'ADMIN',
     //mQryId: "planqry",
-    //mQryParams: [{userId: 'ADMIN'}]/ [{userId: 'ADMIN', plantype: 'P'}] user id varchar(18), plantype char(1) default 'P' COMMENT 'P for Polls, V for Votes'. If no plantype is given, all types of plans will be fetched.
+    //mQryParams: [{userId: 'ADMIN'}]/ [{userId: 'ADMIN', plantype: 'P'}] user id varchar(18), plantype char(1) default 'P' COMMENT 'P for Polls, V for Votes (paid), L for Limited Votes(To set the Maximum Polled Votes Limit. whenever recharged, value in the 'noofpolls' field will be added with the 'maximumvotesallowed' in the m_pollmaster table)'. If no plantype is given, all types of plans will be fetched.
 
     //To get the details of one Plan excluding the inactive categories including the subscriber count:eg.
     //mUserId: 'GUEST',
@@ -439,18 +439,35 @@ export default function ApiViewer() {
     // mQryId: "pollqry3",
     // mQryParams: [{ categories: [1, 2, 40], country_code: 'IND', state_code: 'KL', district_code:'KL001', mpconstituency:'KL001', mlaconstituency:'KL001', noof_polls_tobe_displayed : 1000, is_logged_in:'Y'}] if noof_polls_tobe_displayed is ommitted, noof_polls_tobe_displayed = 1000
 
+    // To Take the backup of the database
+    // mUserId: 'ADMIN',
+    // mQryId: "performbackup",
+    // mQryParams: []
+
+    // To restore the backup of the database
+    // mUserId: 'ADMIN',
+    // mQryId: "restoredatabase",
+    // mQryParams: []
+
     //const apiUrl = "https://api.theballoter.com/apiquery"
     //const apiUrl = "http://localhost:5000/apiquery"
     //const apiUrl = "https://darkslateblue-pelican-294300.hostingersite.com/apiquery"
-    const apiUrl = "http://localhost:5000/apiuserupd"
+    //const apiUrl = "http://localhost:5000/apiuserupd"
     //const apiUrl = "https://api.theballoter.com/apiuserupd"
     //const apiUrl = "https://darkslateblue-pelican-294300.hostingersite.com/apiuserupd"
     //const apiUrl = "http://localhost:5000/apiadminupd"
-
-    const postData = {// To send otp
-        mUserId: '9342800844',
-        mQryId: 'sendotpemail1',
-        mQryParams: ['tradeview1972@gmail.com'] //email address
+    const apiUrl = "https://api.theballoter.com/apiadminupd"
+    const postData = {// 
+        mUserId: 'ADMIN',
+        mQryId: "performbackup",
+        //mQryId: "restoredatabase",
+        mQryParams: []
+        //mQryId: "languageins",
+        //mQryParams: [{ code: 'KAN', language: 'Kannada', fontname: 'font2' }]
+        //mQryParams: [{ code: 'ORI', language: 'Oria', fontname: 'font2' }]
+         //mQryParams: [{ code: 'PAN', language: 'Panjabi', fontname: 'font2' }]
+         //mQryParams: [{ code: 'GUJ', language: 'Gujarathi', fontname: 'font2' }]
+         //mQryParams: [{ code: 'TEL', language: 'Telugu', fontname: 'font2' }]
     };
 
     const fetchData = async () => {
