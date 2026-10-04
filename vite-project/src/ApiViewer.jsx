@@ -122,24 +122,32 @@ export default function ApiViewer() {
     //To create the plan details:eg.
     //mUserId: 'ADMIN',
     //mQryId: "planins",
-    //mQryParams: [{planid:'TEST', name:'TEST', noofpolls:50,amount:10000, exclgst:10000, gst:0, cgst:0, sgst:0, freebee:5, sp_fromdate:'2026-03-01 12:00:00', sp_todate:'2026-03-31 12:00:00', validityperiod:12, editablevotecount:100, plantype:'P'}] //plantype:P for Polls, V for Votes 
-    //planid VARCHAR(10),name CHAR(40),noofpolls INT, amount including gst DOUBLE, exclgst DOUBLE,gst DOUBLE,cgst DOUBLE,sgst DOUBLE, freebee int, sp_fromdate datetime,  sp_todate datetime, validityperiod int, editablevotecount int, plantype CHAR(1) default 'P' COMMENT 'P for Polls, V for Votes'
+    //mQryParams: [{planid:'PREMIUM', name:'Premium', noofpolls:0, amount:299, exclgst:299, gst:0, cgst:0, sgst:0, freebee:0, sp_fromdate:'2026-03-01 12:00:00', sp_todate:'2026-03-31 12:00:00', validityperiod:12, editablevotecount:5, plantype:'P'}]
+    //plantype: P = subscription catalog (planid STANDARD | PREMIUM), V = vote pack, L = poll capacity (noofpolls adds to m_pollmaster.maximumvotesallowed on recharge)
+    //planid VARCHAR(10), name CHAR(40), noofpolls INT, amount including gst DOUBLE, exclgst DOUBLE, gst DOUBLE, cgst DOUBLE, sgst DOUBLE, freebee int, sp_fromdate datetime, sp_todate datetime, validityperiod int, editablevotecount int, plantype CHAR(1) default 'P'
 
     //To update the plan details:eg.
     //mUserId: 'ADMIN',
     //mQryId: "planupd",
-    //mQryParams: [{planid:'BASIC', name:'BASIC plan', noofpolls:0, amount:0, exclgst:0, gst:0, cgst:0, sgst:0, freebee:10, sp_fromdate:'2026-04-01 00:00:00', sp_todate:'2026-04-30 23:59:59', validityperiod:12, editablevotecount:200, plantype:'P'}]
-    //planid VARCHAR(10),name VARCHAR(40),noofpolls INT, amount including gst DOUBLE, exclgst DOUBLE,gst DOUBLE,cgst DOUBLE,sgst DOUBLE, freebee int, sp_fromdate datetime,  sp_todate datetime, validityperiod int, editablevotecount int, plantype CHAR(1) default 'P' COMMENT 'P for Polls, V for Votes'
+    //mQryParams: [{planid:'PREMIUM', name:'Premium', noofpolls:0, amount:299, exclgst:299, gst:0, cgst:0, sgst:0, freebee:0, validityperiod:1, editablevotecount:0, plantype:'P'}]
+    // plantype: P = subscription (planid STANDARD|PREMIUM), V = vote packs (adds paidvotes + editablevotecount), L = poll capacity (adds to m_pollmaster.maximumvotesallowed)
 
     //To get the details of all the Plans excluding the inactive categories including the subscriber count per plan (All):eg.
     //mUserId: 'GUEST',
     //mQryId: "planqry",
-    //mQryParams: []/[{plantype:'P'}] plantype char(1) default 'P' COMMENT 'P for Polls, V for Votes (paid), L for Limited Votes(To set the Maximum Polled Votes Limit. whenever recharged, value in the 'noofpolls' field will be added with the 'maximumvotesallowed' in the m_pollmaster table).'. If no plantype is given, all types of plans will be fetched.
+    //mQryParams: []/[{plantype:'P'}]/ [{plantype:'V'}]/ [{plantype:'L'}]
+    // plantype P/V/L. If omitted, all types are fetched.
 
-    //To get the details of all Plans including the inactive categories including the subscriber count per plan (All):eg.
-    //mUserId: 'ADMIN',
-    //mQryId: "planqry",
-    //mQryParams: [{userId: 'ADMIN'}]/ [{userId: 'ADMIN', plantype: 'P'}] user id varchar(18), plantype char(1) default 'P' COMMENT 'P for Polls, V for Votes (paid), L for Limited Votes(To set the Maximum Polled Votes Limit. whenever recharged, value in the 'noofpolls' field will be added with the 'maximumvotesallowed' in the m_pollmaster table)'. If no plantype is given, all types of plans will be fetched.
+    // Admin-only backup/restore via /apiadminupd (mUserId must be ADMIN):
+    // mQryId: "performbackup" | "restoredatabase", mQryParams: []
+
+    // m_itemmast.usertype: A=ADMIN only, G=GUEST only, S=Standard, P=Premium (effective).
+    // Expired Premium returns usertype S + planid STANDARD without rewriting the DB.
+    // m_itemmast.planid is always STANDARD or PREMIUM for end users.
+
+    // pollins (Premium only, non-admin): pay L plan first, then pass capacity_invno / capacity_planid.
+    // Rejects if effectiveto > user.expirydate: "Extend Premium before this end date."
+    // Sets m_pollmaster.maximumvotesallowed from the L plan. Vote UI disables when poll is full.
 
     //To get the details of one Plan excluding the inactive categories including the subscriber count:eg.
     //mUserId: 'GUEST',
@@ -203,15 +211,16 @@ export default function ApiViewer() {
     //To create a new user details:/apiuserupd
     //mUserId: 'ADMIN',
     //mQryId: "userins",
-    //mQryParams: [{id:'93428008t2', name:'Testplanwith5freebees', email:'test123@gmail.com', sex:'M', usertype:'U', isloggedin:'Y', is_active:'Y', country_code:'IND', state_code:'TN', district_code:'TN030', mpconstituency:'TN030', mlaconstituency:'', divcode:'TN225', lastaccessed:'2026-03-22 01:30:00',	dateofbirth:'1972-02-05', planid:'TEST', paidfrom:'PAYTM', fromaccount:'123@paytm', language:'ENG', availableeditablevotes:100, expirydate:'2026-07-31'}]
-    //id VARCHAR(13), name VARCHAR(40), email VARCHAR(50), sex CHAR(1), usertype CHAR(1), isloggedin CHAR(1), is_active CHAR(1),	country_code CHAR(3),
+    //mQryParams: [{id:'93428008t2', name:'Test User', email:'test123@gmail.com', sex:'M', usertype:'S', isloggedin:'Y', is_active:'Y', country_code:'IND', state_code:'TN', district_code:'TN030', divcode:'TN225', lastaccessed:'2026-03-22 01:30:00', dateofbirth:'1972-02-05', planid:'STANDARD', language:'ENG'}]
+    //usertype: A Admin (system), G Guest (system), S Standard, P Premium. End users: S→planid STANDARD, P→planid PREMIUM (+ expirydate from PREMIUM catalog).
+    //id VARCHAR(13), name VARCHAR(40), email VARCHAR(50), sex CHAR(1), usertype CHAR(1), isloggedin CHAR(1), is_active CHAR(1), country_code CHAR(3),
     //state_code CHAR(3),	district_code CHAR(5), mpconstituency CHAR(5), mlaconstituency CHAR(5), divcode VARCHAR(30), lastaccessed DATETIME,
     //dateofbirth DATE, planid VARCHAR(10), paidfrom varchar(10), fromaccount varchar(50), language CHAR(3), (must not include availableeditablevotes, expirydate)
 
     //To update an existing user details:/apiuserupd
     //mUserId: '__self',
     //mQryId: "userupd",
-    //mQryParams: [{id:'93428008t2', name:'Testplanwith5freebees', sex:'M', usertype:'U', isloggedin:'N', is_active:'Y', country_code:'IND', state_code:'TN', district_code:'TN030', mpconstituency:'TN030', mlaconstituency:'TN225', divcode:'', lastaccessed:'2026-03-23 22:30:00',	dateofbirth:'1972-02-05', language:'ENG'}]
+    //mQryParams: [{id:'93428008t2', name:'Test User', sex:'M', usertype:'P', planid:'PREMIUM', isloggedin:'N', is_active:'Y', country_code:'IND', state_code:'TN', district_code:'TN030', divcode:'', lastaccessed:'2026-03-23 22:30:00', dateofbirth:'1972-02-05', language:'ENG'}]
 
     //To get the user details for one single user:/apiquery
     //mUserId: 'GUEST',
@@ -439,12 +448,12 @@ export default function ApiViewer() {
     // mQryId: "pollqry3",
     // mQryParams: [{ categories: [1, 2, 40], country_code: 'IND', state_code: 'KL', district_code:'KL001', mpconstituency:'KL001', mlaconstituency:'KL001', noof_polls_tobe_displayed : 1000, is_logged_in:'Y'}] if noof_polls_tobe_displayed is ommitted, noof_polls_tobe_displayed = 1000
 
-    // To Take the backup of the database
+    // To Take the backup of the database (apiadminupd, ADMIN only)
     // mUserId: 'ADMIN',
     // mQryId: "performbackup",
     // mQryParams: []
 
-    // To restore the backup of the database
+    // To restore the backup of the database (apiadminupd, ADMIN only — destructive)
     // mUserId: 'ADMIN',
     // mQryId: "restoredatabase",
     // mQryParams: []
