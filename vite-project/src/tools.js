@@ -1,3 +1,4 @@
+/** Kept as a passthrough for local experiments. Prefer the user-app / admin payloadCrypto helpers in production. */
 export function decryptData(pData) {
     try {
         return pData

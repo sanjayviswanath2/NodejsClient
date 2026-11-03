@@ -214,7 +214,7 @@ export default function ApiViewer() {
     //mQryParams: [{id:'93428008t2', name:'Test User', email:'test123@gmail.com', sex:'M', usertype:'S', isloggedin:'Y', is_active:'Y', country_code:'IND', state_code:'TN', district_code:'TN030', divcode:'TN225', lastaccessed:'2026-03-22 01:30:00', dateofbirth:'1972-02-05', planid:'STANDARD', language:'ENG'}]
     //usertype: A Admin (system), G Guest (system), S Standard, P Premium. End users: S→planid STANDARD, P→planid PREMIUM (+ expirydate from PREMIUM catalog).
     //id VARCHAR(13), name VARCHAR(40), email VARCHAR(50), sex CHAR(1), usertype CHAR(1), isloggedin CHAR(1), is_active CHAR(1), country_code CHAR(3),
-    //state_code CHAR(3),	district_code CHAR(5), mpconstituency CHAR(5), mlaconstituency CHAR(5), divcode VARCHAR(30), lastaccessed DATETIME,
+    //state_code CHAR(3),	district_code CHAR(5), mpconstituency CHAR(5), mlaconstituency CHAR(5), divcode VARCHAR(72) bcrypt, lastaccessed DATETIME,
     //dateofbirth DATE, planid VARCHAR(10), paidfrom varchar(10), fromaccount varchar(50), language CHAR(3), (must not include availableeditablevotes, expirydate)
 
     //To update an existing user details:/apiuserupd
@@ -281,16 +281,15 @@ export default function ApiViewer() {
     //mQryId: "pollvotesqry1",
     //mQryParams: [5] pollid int
 
-    //To vaerify the password and update login status eg.
+    //To verify the password and update login status eg. (send plaintext; API stores bcrypt)
     //mUserId: '9342800844',
     //mQryId: "loginupd2",
-    //mQryParams: ['9342800844', '']
+    //mQryParams: ['9342800844', '123456']
 
-    // const mpwd = hashit('Abcdefghij') //GSVeiYAqRGdauAaPxbXQADOhaPmAnM
     // const postData = {
     //     mUserId: '9342800844',
     //     mQryId: "userupd",
-    //     mQryParams: [{ id: '9342800844', divcode: mpwd }]
+    //     mQryParams: [{ id: '9342800844', divcode: '123456' }]
     // };
 
     //To create a new comment eg.
@@ -526,71 +525,6 @@ export default function ApiViewer() {
         </div>
     );
 }
-
-function hashit(pText) { //must be used only for password encryption
-    let hash = 0, i = 0, mcnt = 0, char = 0, mStr = '', mHashStr = '', mPosCounter = 1;
-    try {
-        pText = pText + '123456789012345678901234567890'
-        pText = pText.substring(0, 30)
-        mcnt = pText.length
-        for (i = 0; i < mcnt; i++) {
-            char = pText.charCodeAt(i);
-            char = char * (i + 1) * 256
-            hash += char;
-        }
-        mStr = String(hash)
-        do {
-            mStr += mStr
-        } while (mStr.length <= 30)
-        mStr = mStr.substring(0, 30)
-        mcnt = mStr.length
-        //65 - 90, 97 - 122
-        for (i = 0; i < mcnt; i++) {
-            char = Number(mStr.slice(i, i + 1));
-            char = (char * mPosCounter++) + 65
-            char = char % 129 //maximum will be 128
-            if (char < 65) {
-                char += 65
-            }
-            if (char > 90 && char < 97) {
-                char += 6
-            }
-            if (char > 122 && char <= 130) {
-                char = char - 123 + 65
-            }
-
-            //if (mPosCounter > 7) { mPosCounter = 1 }
-            mHashStr += String.fromCharCode(char);
-        }
-    } catch (error) {
-        mHashStr = 'error'
-        console.error(error)
-    }
-    return mHashStr;
-}
-
-// function uselesshashit(pText) {
-//     sha256(pText).then(hash => {
-//         console.log('hash', hash)
-//         return hash;
-//     }
-//     );
-// }
-
-// async function sha256(message) {
-//     // Encode the message as UTF-8 bytes
-//     const msgBuffer = new TextEncoder().encode(message);
-
-//     // Hash the message
-//     const hashBuffer = await window.crypto.subtle.digest('SHA-256', msgBuffer);
-
-//     // Convert ArrayBuffer to Array
-//     const hashArray = Array.from(new Uint8Array(hashBuffer));
-
-//     // Convert bytes to hex string
-//     const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-//     return hashHex;
-// }
 
 // function xsha256(message) {
 //     try {
